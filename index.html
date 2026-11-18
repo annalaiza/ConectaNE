@@ -1,168 +1,1554 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>MapJob - Busca de Vagas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConectaNE — Empregos e Oportunidades no Nordeste</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #ea580c;
+      --primary-hover: #c2410c;
+      --primary-soft: #ffedd5;
+      --secondary: #0d9488;
+      --secondary-dark: #0f766e;
+      --secondary-soft: #ccfbf1;
+      --accent: #f59e0b;
+      --bg-outer: #eef2f6;
+      --bg-app: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
     body {
-      background-color: #f1f5f9;
-      font-family: Arial;
-      padding: 20px;
+      background-color: var(--bg-outer);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
     }
 
-
-    .container {
-      width: 600px;
-      margin: 0 auto;
-      background-color: white;
-      border: 2px solid blue;
-    }
-
-
-    .topo {
-      background-color: #1d4ed8;
-      color: white;
-      padding: 15px;
-    }
-
-
-    .topo h1 {
-      display: inline;
-    }
-
-
-    .topo span {
-      float: right;
-      font-weight: bold;
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-
-    .conteudo {
-      padding: 20px;
-    }
-
-
-    .campo {
-      margin-bottom: 15px;
-    }
-
-
-    label {
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-
-    input[type="text"], select {
+    .app-shell {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      max-width: 440px;
+      background-color: var(--bg-app);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
+      position: relative;
+      padding-bottom: 84px;
     }
 
-
-    .caixa-amarela {
-      background-color: #ffffcc;
-      border: 1px dashed orange;
-      padding: 10px;
-      margin-bottom: 15px;
+    .app-shell.no-nav {
+      padding-bottom: 24px;
     }
 
+    header {
+      background: linear-gradient(135deg, #ea580c 0%, #f59e0b 55%, #0d9488 130%);
+      color: #ffffff;
+      padding: 22px 20px 26px;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+      box-shadow: 0 6px 20px rgba(234, 88, 12, 0.22);
+    }
 
-    .botao {
-      width: 100%;
-      background-color: green;
-      color: white;
-      padding: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+    }
+
+    .logo-text span {
+      color: #fef08a;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-status {
+      background: rgba(15, 23, 42, 0.28);
+      backdrop-filter: blur(4px);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-logout {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
       cursor: pointer;
     }
 
+    .dot-live {
+      width: 7px;
+      height: 7px;
+      background: #4ade80;
+      border-radius: 50%;
+    }
 
-    .rodape {
-      background-color: #1e293b;
-      color: white;
+    .header-sub {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: 500;
+    }
+
+    main {
+      padding: 18px 16px;
+      flex: 1;
+    }
+
+    .screen {
+      display: none;
+      animation: slideUp 0.25s ease;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 16px;
+    }
+
+    .auth-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .auth-subtitle {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .role-option {
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 14px 10px;
       text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-option .role-emoji {
+      font-size: 1.6rem;
+    }
+
+    .role-option strong {
+      font-size: 0.84rem;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+
+    .role-option small {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .role-option.selected {
+      border-color: var(--primary);
+      background: #fff7ed;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.14);
+    }
+
+    .role-option.selected strong {
+      color: var(--primary-hover);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    select, input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], textarea {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: var(--text-main);
+      background-color: #ffffff;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .divider-text {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin: 14px 0;
+      position: relative;
+    }
+
+    .quick-demo-btn {
+      width: 100%;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1.5px dashed #cbd5e1;
       padding: 10px;
-      font-size: 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .quick-demo-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .profile-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-info strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .profile-info span {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .map-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .map-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .radius-badge {
+      background: var(--secondary-soft);
+      color: var(--secondary-dark);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .map-canvas {
+      height: 105px;
+      border-radius: var(--radius-md);
+      background-color: #f0fdfa;
+      background-image:
+        radial-gradient(circle at 50% 50%, rgba(13, 148, 136, 0.22) 0%, rgba(13, 148, 136, 0.08) 52%, transparent 72%),
+        linear-gradient(to right, rgba(13, 148, 136, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(13, 148, 136, 0.08) 1px, transparent 1px);
+      background-size: 100% 100%, 22px 22px, 22px 22px;
+      border: 1.5px dashed #5eead4;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      border: 2px solid rgba(234, 88, 12, 0.35);
+      background: rgba(234, 88, 12, 0.06);
+    }
+
+    .map-pin {
+      position: relative;
+      z-index: 2;
+      background: var(--text-main);
+      color: #ffffff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.22);
+    }
+
+    .radius-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .radius-slider-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--secondary);
+      cursor: pointer;
+    }
+
+    .filters-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .aprendiz-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to right, #fff7ed, #ffedd5);
+      border: 1.5px solid #fed7aa;
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .aprendiz-label {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .aprendiz-label strong {
+      font-size: 0.86rem;
+      color: #9a3412;
+    }
+
+    .aprendiz-label small {
+      font-size: 0.74rem;
+      color: #c2410c;
+    }
+
+    .aprendiz-switch input {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-header h2 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .counter-pill {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .job-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .job-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 8px;
+    }
+
+    .tag-city {
+      background: #f1f5f9;
+      color: #334155;
+    }
+
+    .tag-match {
+      background: var(--secondary-soft);
+      color: var(--secondary-dark);
+    }
+
+    .tag-ja {
+      background: var(--primary-soft);
+      color: var(--primary-hover);
+    }
+
+    .job-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .job-company {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .job-details-bar {
+      display: flex;
+      justify-content: space-between;
+      background: #f8fafc;
+      border: 1px solid #f1f5f9;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 12px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), #f97316);
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.94;
+    }
+
+    .btn-primary.applied {
+      background: var(--secondary);
+      box-shadow: none;
+      cursor: default;
+    }
+
+    .empty-box {
+      text-align: center;
+      padding: 32px 18px;
+      background: var(--surface);
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-lg);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .help-banner {
+      background: linear-gradient(135deg, #0f766e, #0d9488);
+      color: #ffffff;
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+    }
+
+    .help-banner h2 {
+      font-size: 1.02rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .help-banner p {
+      font-size: 0.84rem;
+      opacity: 0.92;
+      line-height: 1.4;
+    }
+
+    .faq-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .faq-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 15px;
+      text-align: left;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .faq-plus {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .faq-card.open .faq-plus {
+      transform: rotate(45deg);
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .faq-body {
+      display: none;
+      padding: 0 15px 15px;
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.5;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 11px;
+    }
+
+    .faq-card.open .faq-body {
+      display: block;
+    }
+
+    .ask-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .ask-card h3 {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .alert-success {
+      display: none;
+      background: var(--secondary-soft);
+      color: var(--secondary-dark);
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 0.83rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    nav.bottom-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 440px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid var(--border);
+      display: none;
+      justify-content: space-around;
+      padding: 10px 0 12px;
+      z-index: 20;
+    }
+
+    nav.bottom-bar.visible {
+      display: flex;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 14px;
+      border-radius: 12px;
+      transition: color 0.2s;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(3px);
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 50;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 390px;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 24px 48px rgba(15, 23, 42, 0.25);
+    }
+
+    .modal-box h2 {
+      font-size: 1.12rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .modal-sub {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--secondary-dark);
+      margin-bottom: 12px;
+    }
+
+    .modal-desc {
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.5;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      padding: 12px;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      color: var(--text-main);
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-confirm-apply {
+      flex: 2;
+      padding: 12px;
+      border: none;
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
+  <div class="app-shell no-nav" id="app-shell">
+    <header>
+      <div class="header-top">
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+          </div>
+          <div class="logo-text">Conecta<span>NE</span></div>
+        </div>
+        <div class="header-actions">
+          <div class="pill-status">
+            <span class="dot-live"></span>
+            <span id="header-badge-text">Acesso</span>
+          </div>
+          <button type="button" class="btn-logout" id="btn-logout" style="display: none;">Sair</button>
+        </div>
+      </div>
+      <p class="header-sub" id="header-subtitle">Conectando talentos e empresas da nossa região com menos deslocamento e mais oportunidades.</p>
+    </header>
 
-  <div class="container">
-    <div class="topo">
-      <h1>MAPJOB</h1>
-      <span>Vagas no Mapa | Minhas Candidaturas | Perfil</span>
-    </div>
+    <main>
+      <section id="screen-login" class="screen active">
+        <div class="auth-card">
+          <h1 class="auth-title">Bem-vindo ao ConectaNE</h1>
+          <p class="auth-subtitle">Escolha seu perfil de acesso e informe seus dados para entrar na plataforma.</p>
 
+          <div class="role-grid">
+            <div class="role-option selected" id="role-candidato" data-role="candidato">
+              <span class="role-emoji">🙋🏽‍♂️</span>
+              <strong>Preciso de Vaga</strong>
+              <small>Candidato / Jovem Aprendiz</small>
+            </div>
+            <div class="role-option" id="role-empresa" data-role="empresa">
+              <span class="role-emoji">🏪</span>
+              <strong>Sou Empresa</strong>
+              <small>Comércio / Empregador</small>
+            </div>
+          </div>
 
-    <div class="conteudo">
-      <h2 style="color: blue; margin-bottom: 15px;">Preencha as Informações de Busca</h2>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="login-nome" id="label-login-nome">Nome completo</label>
+              <input type="text" id="login-nome" placeholder="Ex.: Maria Eduarda Silva" required />
+            </div>
 
+            <div class="form-group">
+              <label for="login-email">E-mail de acesso</label>
+              <input type="email" id="login-email" placeholder="seuemail@exemplo.com" required />
+            </div>
 
-      <form>
-        <div class="campo">
-          <label>Nome Completo</label><br>
-          <input type="text" placeholder="Digite o seu nome completo...">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="login-telefone">Telefone / WhatsApp</label>
+                <input type="tel" id="login-telefone" placeholder="(83) 99999-0000" required />
+              </div>
+              <div class="form-group">
+                <label for="login-cidade">Cidade / UF</label>
+                <select id="login-cidade" required>
+                  <option value="Esperança - PB">Esperança - PB</option>
+                  <option value="Campina Grande - PB">Campina Grande - PB</option>
+                  <option value="Caruaru - PE">Caruaru - PE</option>
+                  <option value="Mossoró - RN">Mossoró - RN</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="login-senha">Senha</label>
+              <input type="password" id="login-senha" placeholder="Digite sua senha" required />
+            </div>
+
+            <button type="submit" class="btn-primary">Continuar para Minha Ficha</button>
+          </form>
+
+          <div class="divider-text">ou teste rapidamente com dados fictícios</div>
+          <button type="button" class="quick-demo-btn" id="btn-fill-demo">Preencher Dados de Exemplo Automaticamente</button>
+        </div>
+      </section>
+
+      <section id="screen-ficha-candidato" class="screen">
+        <div class="auth-card">
+          <h2 class="auth-title">Ficha do Candidato</h2>
+          <p class="auth-subtitle">Complete seu perfil para calcularmos seu Match ≥ 60% com as empresas da sua cidade.</p>
+
+          <form id="form-ficha-candidato">
+            <div class="form-group">
+              <label for="cand-nome">Nome Completo</label>
+              <input type="text" id="cand-nome" required />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="cand-cpf">CPF (Fictício)</label>
+                <input type="text" id="cand-cpf" placeholder="000.000.000-00" required />
+              </div>
+              <div class="form-group">
+                <label for="cand-idade">Idade</label>
+                <input type="number" id="cand-idade" min="14" max="80" placeholder="Ex.: 19" required />
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="cand-cep">CEP</label>
+                <input type="text" id="cand-cep" placeholder="58135-000" required />
+              </div>
+              <div class="form-group">
+                <label for="cand-bairro">Bairro</label>
+                <input type="text" id="cand-bairro" placeholder="Ex.: Centro" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cand-escolaridade">Escolaridade</label>
+              <select id="cand-escolaridade" required>
+                <option value="Ensino Médio Cursando">Ensino Médio Cursando</option>
+                <option value="Ensino Médio Completo">Ensino Médio Completo</option>
+                <option value="Ensino Técnico">Ensino Técnico</option>
+                <option value="Ensino Superior Cursando">Ensino Superior Cursando</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="cand-habilidades">Suas Competências e Interesses</label>
+              <textarea id="cand-habilidades" placeholder="Ex.: Atendimento ao público, informática básica, organização, comunicação..." required></textarea>
+            </div>
+
+            <label class="aprendiz-switch" style="margin-bottom: 14px;">
+              <div class="aprendiz-label">
+                <strong>🎓 Sou Jovem Aprendiz</strong>
+                <small>Busco minha primeira oportunidade formal (14 a 24 anos)</small>
+              </div>
+              <input type="checkbox" id="cand-aprendiz" />
+            </label>
+
+            <button type="submit" class="btn-primary">Salvar Ficha e Ver Vagas</button>
+            <div class="alert-success" id="cand-ficha-msg">✓ Ficha salva com sucesso!</div>
+          </form>
+        </div>
+      </section>
+
+      <section id="screen-ficha-empresa" class="screen">
+        <div class="auth-card">
+          <h2 class="auth-title">Ficha da Empresa</h2>
+          <p class="auth-subtitle">Cadastre os dados do seu comércio ou empresa local e publique oportunidades na região.</p>
+
+          <form id="form-ficha-empresa">
+            <div class="form-group">
+              <label for="emp-nome">Nome Fantasia da Empresa</label>
+              <input type="text" id="emp-nome" placeholder="Ex.: Padaria Sol Nascente" required />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="emp-cnpj">CNPJ (Fictício)</label>
+                <input type="text" id="emp-cnpj" placeholder="00.000.000/0001-00" required />
+              </div>
+              <div class="form-group">
+                <label for="emp-ramo">Ramo de Atuação</label>
+                <select id="emp-ramo" required>
+                  <option value="Comércio Varejista">Comércio Varejista</option>
+                  <option value="Alimentação / Padaria">Alimentação / Padaria</option>
+                  <option value="Logística e Distribuição">Logística e Distribuição</option>
+                  <option value="Serviços / Escritório">Serviços / Escritório</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="emp-cidade">Cidade / UF</label>
+                <select id="emp-cidade" required>
+                  <option value="Esperança - PB">Esperança - PB</option>
+                  <option value="Campina Grande - PB">Campina Grande - PB</option>
+                  <option value="Caruaru - PE">Caruaru - PE</option>
+                  <option value="Mossoró - RN">Mossoró - RN</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="emp-endereco">Bairro / Endereço</label>
+                <input type="text" id="emp-endereco" placeholder="Ex.: Rua Principal, 120" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="emp-descricao">Sobre a Empresa</label>
+              <textarea id="emp-descricao" placeholder="Descreva brevemente o ambiente de trabalho e a equipe..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">Salvar Dados da Empresa</button>
+            <div class="alert-success" id="emp-ficha-msg">✓ Dados da empresa salvos! Agora você pode publicar vagas abaixo.</div>
+          </form>
         </div>
 
+        <div class="auth-card">
+          <h2 class="auth-title">Publicar Nova Vaga</h2>
+          <p class="auth-subtitle">A vaga aparecerá imediatamente na lista para candidatos da região.</p>
 
-        <div class="campo">
-          <label>Cidade / Bairro</label><br>
-          <input type="text" placeholder="Ex: Esperança - PB">
+          <form id="form-nova-vaga">
+            <div class="form-group">
+              <label for="vaga-titulo">Cargo / Título da Vaga</label>
+              <input type="text" id="vaga-titulo" placeholder="Ex.: Auxiliar de Atendimento" required />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="vaga-salario">Salário / Bolsa</label>
+                <input type="text" id="vaga-salario" placeholder="Ex.: R$ 1.520,00" required />
+              </div>
+              <div class="form-group">
+                <label for="vaga-carga">Carga Horária</label>
+                <input type="text" id="vaga-carga" placeholder="Ex.: 44h semanais" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="vaga-desc">Requisitos e Atividades</label>
+              <textarea id="vaga-desc" placeholder="Ex.: Boa comunicação, pontualidade e vontade de aprender..." required></textarea>
+            </div>
+
+            <label class="aprendiz-switch" style="margin-bottom: 14px;">
+              <div class="aprendiz-label">
+                <strong>🎓 Vaga para Jovem Aprendiz</strong>
+                <small>Marque se aceita candidatos sem experiência</small>
+              </div>
+              <input type="checkbox" id="vaga-aprendiz" />
+            </label>
+
+            <button type="submit" class="btn-primary">Publicar Vaga no ConectaNE</button>
+            <div class="alert-success" id="vaga-pub-msg">✓ Vaga publicada com sucesso! Confira na aba Vagas.</div>
+          </form>
+        </div>
+      </section>
+
+      <section id="screen-vagas" class="screen">
+        <div class="profile-banner">
+          <div class="profile-info">
+            <strong id="banner-user-name">Usuário Conectado</strong>
+            <span id="banner-user-role">Perfil Ativo</span>
+          </div>
+          <button type="button" class="quick-demo-btn" style="width: auto; padding: 7px 12px;" id="btn-editar-ficha">Editar Ficha</button>
         </div>
 
-
-        <div class="campo">
-          <label>Habilidades / Cargo Desejado</label><br>
-          <input type="text" placeholder="Ex: Atendimento, Logística...">
+        <div class="map-card">
+          <div class="map-header">
+            <span class="map-title">📍 Geolocalização Regional</span>
+            <span class="radius-badge" id="radius-label">Até 15 km</span>
+          </div>
+          <div class="map-canvas">
+            <div class="pulse-ring"></div>
+            <div class="map-pin" id="map-status-pin">5 vagas próximas a você</div>
+          </div>
+          <div class="radius-slider-row">
+            <span>2 km</span>
+            <input type="range" id="radius-slider" min="2" max="25" value="15" />
+            <span>25 km</span>
+          </div>
         </div>
 
-
-        <div class="campo">
-          <label>Raio de Busca Desejado (KM)</label><br>
-          <select>
-            <option>Até 2 km</option>
-            <option selected>Até 5 km (Recomendado)</option>
-            <option>Até 10 km</option>
-            <option>Até 15 km</option>
-            <option>Até 20 km</option>
+        <div class="filters-box">
+          <select id="city-filter" aria-label="Filtrar por cidade">
+            <option value="TODAS">Todas as cidades do Nordeste</option>
+            <option value="Esperança - PB">Esperança - PB</option>
+            <option value="Campina Grande - PB">Campina Grande - PB</option>
+            <option value="Caruaru - PE">Caruaru - PE</option>
+            <option value="Mossoró - RN">Mossoró - RN</option>
           </select>
+
+          <label class="aprendiz-switch">
+            <div class="aprendiz-label">
+              <strong>🎓 Modo Jovem Aprendiz</strong>
+              <small>Vagas para primeiro emprego sem experiência</small>
+            </div>
+            <input type="checkbox" id="aprendiz-filter" />
+          </label>
         </div>
 
-
-        <div class="campo">
-          <label>Compatibilidade Mínima (Match)</label><br>
-          <select>
-            <option>Mínimo 60% (Recomendado)</option>
-            <option>Mínimo 70%</option>
-            <option>Mínimo 80%</option>
-          </select>
+        <div class="section-header">
+          <h2>Oportunidades Compatíveis</h2>
+          <span class="counter-pill" id="jobs-count">0 vagas</span>
         </div>
 
+        <div class="job-list" id="job-list"></div>
+      </section>
 
-        <div class="caixa-amarela">
-          <input type="checkbox" id="jovem">
-          <label for="jovem" style="color: brown;">★ Sou Jovem Aprendiz</label>
+      <section id="screen-ajuda" class="screen">
+        <div class="help-banner">
+          <h2>Central de Apoio ao Trabalhador</h2>
+          <p>Dúvidas rápidas sobre primeiro emprego, compatibilidade de perfil e contato com empresas locais.</p>
         </div>
 
+        <div class="faq-card open">
+          <button class="faq-trigger" type="button">
+            <span>1. O que significa o selo Match ≥ 60%?</span>
+            <span class="faq-plus">+</span>
+          </button>
+          <div class="faq-body">
+            O ConectaNE cruza sua localização e habilidades com os requisitos das empresas da sua cidade. Mostramos apenas vagas com pelo menos 60% de afinidade para agilizar sua contratação.
+          </div>
+        </div>
 
-        <button type="button" class="botao" onclick="alert('Buscando vagas no mapa...')">BUSCAR VAGAS NO MAPA</button>
-      </form>
-    </div>
+        <div class="faq-card">
+          <button class="faq-trigger" type="button">
+            <span>2. Como funciona o programa Jovem Aprendiz aqui?</span>
+            <span class="faq-plus">+</span>
+          </button>
+          <div class="faq-body">
+            Ativando o botão <strong>Modo Jovem Aprendiz</strong> na tela inicial ou marcando a opção na sua ficha, você visualiza vagas exclusivas para jovens de 14 a 24 anos em busca da primeira experiência formal.
+          </div>
+        </div>
 
+        <div class="faq-card">
+          <button class="faq-trigger" type="button">
+            <span>3. Como recebo retorno após me candidatar?</span>
+            <span class="faq-plus">+</span>
+          </button>
+          <div class="faq-body">
+            Assim que você confirma a candidatura, a empresa local recebe seu perfil. O andamento muda em tempo real entre <em>Candidatura Enviada</em>, <em>Em Análise</em> e <em>Entrevista Agendada</em>.
+          </div>
+        </div>
 
-    <div class="rodape">
-      © 2026 MapJob - Conectando empregos e talentos locais
+        <div class="faq-card">
+          <button class="faq-trigger" type="button">
+            <span>4. O aplicativo cobra alguma taxa do candidato?</span>
+            <span class="faq-plus">+</span>
+          </button>
+          <div class="faq-body">
+            Não. O ConectaNE é 100% gratuito para trabalhadores e Jovens Aprendizes da região Nordeste.
+          </div>
+        </div>
+
+        <form class="ask-card" id="support-form">
+          <h3>Envie sua dúvida</h3>
+          <input type="text" id="support-name" placeholder="Seu nome (ex.: João Lucas)" required />
+          <textarea id="support-question" placeholder="Escreva aqui sua dúvida sobre vagas ou cadastro..." required></textarea>
+          <button type="submit" class="btn-primary">Enviar Mensagem</button>
+          <div class="alert-success" id="support-feedback">
+            ✓ Recebemos sua dúvida! Nossa equipe responderá em breve.
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <nav class="bottom-bar" id="bottom-nav">
+      <button class="tab-btn active" data-target="screen-vagas" type="button">
+        <span>💼</span>
+        <span>Vagas</span>
+      </button>
+      <button class="tab-btn" id="tab-ficha-btn" data-target="screen-ficha-candidato" type="button">
+        <span>📋</span>
+        <span>Minha Ficha</span>
+      </button>
+      <button class="tab-btn" data-target="screen-ajuda" type="button">
+        <span>❓</span>
+        <span>Ajuda</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="modal-overlay" id="apply-modal">
+    <div class="modal-box">
+      <h2 id="modal-title">Título da Vaga</h2>
+      <div class="modal-sub" id="modal-company">Empresa • Cidade</div>
+      <div class="modal-desc" id="modal-desc">Descrição da vaga.</div>
+      <div class="modal-buttons">
+        <button type="button" class="btn-secondary" id="modal-close">Cancelar</button>
+        <button type="button" class="btn-confirm-apply" id="modal-confirm">Confirmar Candidatura</button>
+      </div>
     </div>
   </div>
 
+  <script>
+    const vagasFicticias = [
+      {
+        id: 1,
+        titulo: "Atendente de Loja (Jovem Aprendiz)",
+        empresa: "Padaria Sol Nascente",
+        cidade: "Esperança - PB",
+        distanciaKm: 2,
+        match: 94,
+        salario: "R$ 750,00 + Vale-Transporte",
+        carga: "20h semanais (Manhã)",
+        jovemAprendiz: true,
+        descricao: "Atendimento cordial aos clientes do bairro, organização de vitrine e apoio no caixa. Não exige experiência anterior."
+      },
+      {
+        id: 2,
+        titulo: "Auxiliar de Estoque e Reposição",
+        empresa: "Mercadinho Nordestino",
+        cidade: "Esperança - PB",
+        distanciaKm: 4,
+        match: 85,
+        salario: "R$ 1.520,00",
+        carga: "44h semanais",
+        jovemAprendiz: false,
+        descricao: "Conferência de mercadorias regionais, organização de gôndolas e controle básico de validade."
+      },
+      {
+        id: 3,
+        titulo: "Assistente Administrativo (Jovem Aprendiz)",
+        empresa: "Distribuidora Borborema",
+        cidade: "Campina Grande - PB",
+        distanciaKm: 12,
+        match: 79,
+        salario: "R$ 820,00 + Auxílio Alimentação",
+        carga: "20h semanais (Tarde)",
+        jovemAprendiz: true,
+        descricao: "Apoio na emissão de notas fiscais, organização de documentos e atendimento telefônico. Ideal para o primeiro emprego."
+      },
+      {
+        id: 4,
+        titulo: "Operador(a) de Caixa",
+        empresa: "Farmácia Bem-Estar Agreste",
+        cidade: "Caruaru - PE",
+        distanciaKm: 18,
+        match: 72,
+        salario: "R$ 1.610,00 + Comissão",
+        carga: "44h semanais",
+        jovemAprendiz: false,
+        descricao: "Registro de vendas, fechamento de caixa e atendimento ágil aos moradores da região."
+      },
+      {
+        id: 5,
+        titulo: "Auxiliar de Logística (Jovem Aprendiz)",
+        empresa: "Atacadão Potiguar",
+        cidade: "Mossoró - RN",
+        distanciaKm: 9,
+        match: 88,
+        salario: "R$ 790,00 + Transporte",
+        carga: "20h semanais",
+        jovemAprendiz: true,
+        descricao: "Apoio na separação de pedidos locais e conferência de entregas. Inclui curso de capacitação profissional."
+      }
+    ];
 
+    let perfilAtivo = "candidato";
+    let usuarioLogado = {
+      nome: "",
+      email: "",
+      telefone: "",
+      cidade: "Esperança - PB"
+    };
+
+    const candidaturasRealizadas = new Set();
+    let vagaSelecionadaId = null;
+
+    const appShell = document.getElementById("app-shell");
+    const bottomNav = document.getElementById("bottom-nav");
+    const screens = document.querySelectorAll(".screen");
+    const navButtons = document.querySelectorAll(".tab-btn");
+    const tabFichaBtn = document.getElementById("tab-ficha-btn");
+    const btnLogout = document.getElementById("btn-logout");
+    const headerBadgeText = document.getElementById("header-badge-text");
+
+    function navegarParaTela(screenId) {
+      screens.forEach(s => s.classList.remove("active"));
+      document.getElementById(screenId).classList.add("active");
+
+      navButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-target") === screenId);
+      });
+    }
+
+    const roleCandidatoEl = document.getElementById("role-candidato");
+    const roleEmpresaEl = document.getElementById("role-empresa");
+    const labelLoginNome = document.getElementById("label-login-nome");
+    const inputLoginNome = document.getElementById("login-nome");
+
+    function selecionarPerfil(tipo) {
+      perfilAtivo = tipo;
+      roleCandidatoEl.classList.toggle("selected", tipo === "candidato");
+      roleEmpresaEl.classList.toggle("selected", tipo === "empresa");
+
+      if (tipo === "candidato") {
+        labelLoginNome.textContent = "Nome completo";
+        inputLoginNome.placeholder = "Ex.: Maria Eduarda Silva";
+      } else {
+        labelLoginNome.textContent = "Nome do responsável ou da empresa";
+        inputLoginNome.placeholder = "Ex.: Comercial Sertão Ltda";
+      }
+    }
+
+    roleCandidatoEl.addEventListener("click", () => selecionarPerfil("candidato"));
+    roleEmpresaEl.addEventListener("click", () => selecionarPerfil("empresa"));
+
+    document.getElementById("btn-fill-demo").addEventListener("click", () => {
+      if (perfilAtivo === "candidato") {
+        document.getElementById("login-nome").value = "Ana Beatriz Santos";
+        document.getElementById("login-email").value = "anabeatriz@exemplo.com";
+        document.getElementById("login-telefone").value = "(83) 98812-3456";
+        document.getElementById("login-cidade").value = "Esperança - PB";
+        document.getElementById("login-senha").value = "123456";
+      } else {
+        document.getElementById("login-nome").value = "Supermercado São José";
+        document.getElementById("login-email").value = "rh@saojosemercado.com";
+        document.getElementById("login-telefone").value = "(83) 3361-2090";
+        document.getElementById("login-cidade").value = "Esperança - PB";
+        document.getElementById("login-senha").value = "123456";
+      }
+    });
+
+    document.getElementById("login-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      usuarioLogado = {
+        nome: document.getElementById("login-nome").value,
+        email: document.getElementById("login-email").value,
+        telefone: document.getElementById("login-telefone").value,
+        cidade: document.getElementById("login-cidade").value
+      };
+
+      appShell.classList.remove("no-nav");
+      bottomNav.classList.add("visible");
+      btnLogout.style.display = "inline-block";
+
+      if (perfilAtivo === "candidato") {
+        headerBadgeText.textContent = "Candidato";
+        tabFichaBtn.setAttribute("data-target", "screen-ficha-candidato");
+        document.getElementById("cand-nome").value = usuarioLogado.nome;
+        document.getElementById("banner-user-name").textContent = usuarioLogado.nome;
+        document.getElementById("banner-user-role").textContent = `Candidato • ${usuarioLogado.cidade}`;
+        navegarParaTela("screen-ficha-candidato");
+      } else {
+        headerBadgeText.textContent = "Empresa";
+        tabFichaBtn.setAttribute("data-target", "screen-ficha-empresa");
+        document.getElementById("emp-nome").value = usuarioLogado.nome;
+        document.getElementById("emp-cidade").value = usuarioLogado.cidade;
+        document.getElementById("banner-user-name").textContent = usuarioLogado.nome;
+        document.getElementById("banner-user-role").textContent = `Empregador • ${usuarioLogado.cidade}`;
+        navegarParaTela("screen-ficha-empresa");
+      }
+    });
+
+    btnLogout.addEventListener("click", () => {
+      appShell.classList.add("no-nav");
+      bottomNav.classList.remove("visible");
+      btnLogout.style.display = "none";
+      headerBadgeText.textContent = "Acesso";
+      navegarParaTela("screen-login");
+    });
+
+    document.getElementById("form-ficha-candidato").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nomeAtualizado = document.getElementById("cand-nome").value;
+      const ehAprendiz = document.getElementById("cand-aprendiz").checked;
+
+      usuarioLogado.nome = nomeAtualizado;
+      document.getElementById("banner-user-name").textContent = nomeAtualizado;
+      document.getElementById("banner-user-role").textContent = `${ehAprendiz ? "Jovem Aprendiz" : "Candidato"} • ${usuarioLogado.cidade}`;
+
+      const msg = document.getElementById("cand-ficha-msg");
+      msg.style.display = "block";
+
+      document.getElementById("city-filter").value = usuarioLogado.cidade;
+      document.getElementById("aprendiz-filter").checked = ehAprendiz;
+      renderizarVagas();
+
+      setTimeout(() => {
+        msg.style.display = "none";
+        navegarParaTela("screen-vagas");
+      }, 700);
+    });
+
+    document.getElementById("form-ficha-empresa").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nomeEmp = document.getElementById("emp-nome").value;
+      const cidadeEmp = document.getElementById("emp-cidade").value;
+      usuarioLogado.nome = nomeEmp;
+      usuarioLogado.cidade = cidadeEmp;
+
+      document.getElementById("banner-user-name").textContent = nomeEmp;
+      document.getElementById("banner-user-role").textContent = `Empregador • ${cidadeEmp}`;
+
+      const msg = document.getElementById("emp-ficha-msg");
+      msg.style.display = "block";
+      setTimeout(() => { msg.style.display = "none"; }, 2500);
+    });
+
+    document.getElementById("form-nova-vaga").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const novaVaga = {
+        id: vagasFicticias.length + 1,
+        titulo: document.getElementById("vaga-titulo").value,
+        empresa: document.getElementById("emp-nome").value || usuarioLogado.nome,
+        cidade: document.getElementById("emp-cidade").value || usuarioLogado.cidade,
+        distanciaKm: 3,
+        match: 90,
+        salario: document.getElementById("vaga-salario").value,
+        carga: document.getElementById("vaga-carga").value,
+        jovemAprendiz: document.getElementById("vaga-aprendiz").checked,
+        descricao: document.getElementById("vaga-desc").value
+      };
+
+      vagasFicticias.unshift(novaVaga);
+      e.target.reset();
+
+      const msg = document.getElementById("vaga-pub-msg");
+      msg.style.display = "block";
+      document.getElementById("city-filter").value = "TODAS";
+      renderizarVagas();
+
+      setTimeout(() => {
+        msg.style.display = "none";
+        navegarParaTela("screen-vagas");
+      }, 800);
+    });
+
+    document.getElementById("btn-editar-ficha").addEventListener("click", () => {
+      if (perfilAtivo === "candidato") {
+        navegarParaTela("screen-ficha-candidato");
+      } else {
+        navegarParaTela("screen-ficha-empresa");
+      }
+    });
+
+    const jobListEl = document.getElementById("job-list");
+    const jobsCountEl = document.getElementById("jobs-count");
+    const cityFilterEl = document.getElementById("city-filter");
+    const aprendizFilterEl = document.getElementById("aprendiz-filter");
+    const radiusSliderEl = document.getElementById("radius-slider");
+    const radiusLabelEl = document.getElementById("radius-label");
+    const mapStatusPinEl = document.getElementById("map-status-pin");
+
+    function renderizarVagas() {
+      const cidadeSelecionada = cityFilterEl.value;
+      const apenasAprendiz = aprendizFilterEl.checked;
+      const raioMax = Number(radiusSliderEl.value);
+
+      radiusLabelEl.textContent = `Até ${raioMax} km`;
+
+      const filtradas = vagasFicticias.filter((vaga) => {
+        const passaCidade = cidadeSelecionada === "TODAS" || vaga.cidade === cidadeSelecionada;
+        const passaAprendiz = !apenasAprendiz || vaga.jovemAprendiz;
+        const passaRaio = vaga.distanciaKm <= raioMax;
+        return passaCidade && passaAprendiz && passaRaio && vaga.match >= 60;
+      });
+
+      jobsCountEl.textContent = `${filtradas.length} vaga(s)`;
+      mapStatusPinEl.textContent = `${filtradas.length} vaga(s) no raio de ${raioMax} km`;
+
+      if (filtradas.length === 0) {
+        jobListEl.innerHTML = `
+          <div class="empty-box">
+            Nenhuma vaga encontrada com esses filtros.<br/>
+            Aumente o raio em quilômetros ou selecione "Todas as cidades do Nordeste".
+          </div>
+        `;
+        return;
+      }
+
+      jobListEl.innerHTML = filtradas.map((vaga) => {
+        const jaCandidatado = candidaturasRealizadas.has(vaga.id);
+        const ehEmpresa = perfilAtivo === "empresa";
+        return `
+          <article class="job-card">
+            <div class="tags-row">
+              <span class="tag tag-city">📍 ${vaga.cidade} • ${vaga.distanciaKm} km</span>
+              <span class="tag tag-match">⚡ ${vaga.match}% Match</span>
+              ${vaga.jovemAprendiz ? '<span class="tag tag-ja">🎓 Jovem Aprendiz</span>' : ''}
+            </div>
+            <h3 class="job-title">${vaga.titulo}</h3>
+            <div class="job-company">${vaga.empresa}</div>
+            <div class="job-details-bar">
+              <span>💰 ${vaga.salario}</span>
+              <span>🕒 ${vaga.carga}</span>
+            </div>
+            <button
+              type="button"
+              class="btn-primary ${jaCandidatado ? 'applied' : ''}"
+              onclick="abrirModalCandidatura(${vaga.id})"
+              ${jaCandidatado || ehEmpresa ? 'disabled' : ''}
+            >
+              ${ehEmpresa ? 'Visualização da Vaga (Modo Empresa)' : (jaCandidatado ? '✓ Candidatura Enviada' : 'Candidatar-se Agora')}
+            </button>
+          </article>
+        `;
+      }).join("");
+    }
+
+    cityFilterEl.addEventListener("change", renderizarVagas);
+    aprendizFilterEl.addEventListener("change", renderizarVagas);
+    radiusSliderEl.addEventListener("input", renderizarVagas);
+
+    const modalBackdrop = document.getElementById("apply-modal");
+    const modalTitle = document.getElementById("modal-title");
+    const modalCompany = document.getElementById("modal-company");
+    const modalDesc = document.getElementById("modal-desc");
+
+    window.abrirModalCandidatura = function(id) {
+      const vaga = vagasFicticias.find(v => v.id === id);
+      if (!vaga) return;
+      vagaSelecionadaId = id;
+      modalTitle.textContent = vaga.titulo;
+      modalCompany.textContent = `${vaga.empresa} • ${vaga.cidade} (${vaga.match}% de match)`;
+      modalDesc.textContent = vaga.descricao;
+      modalBackdrop.classList.add("open");
+    };
+
+    document.getElementById("modal-close").addEventListener("click", () => {
+      modalBackdrop.classList.remove("open");
+    });
+
+    document.getElementById("modal-confirm").addEventListener("click", () => {
+      if (vagaSelecionadaId !== null) {
+        candidaturasRealizadas.add(vagaSelecionadaId);
+        modalBackdrop.classList.remove("open");
+        renderizarVagas();
+      }
+    });
+
+    navButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetId = btn.getAttribute("data-target");
+        navegarParaTela(targetId);
+      });
+    });
+
+    document.querySelectorAll(".faq-trigger").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.parentElement;
+        item.classList.toggle("open");
+      });
+    });
+
+    document.getElementById("support-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const feedback = document.getElementById("support-feedback");
+      feedback.style.display = "block";
+      e.target.reset();
+    });
+
+    renderizarVagas();
+  </script>
 </body>
 </html>
-
