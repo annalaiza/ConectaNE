@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>MapJob - Busca de Vagas</title>
+  <style>
+    body {
+      background-color: #f1f5f9;
+      font-family: Arial;
+      padding: 20px;
+    }
+
+
+    .container {
+      width: 600px;
+      margin: 0 auto;
+      background-color: white;
+      border: 2px solid blue;
+    }
+
+
+    .topo {
+      background-color: #1d4ed8;
+      color: white;
+      padding: 15px;
+    }
+
+
+    .topo h1 {
+      display: inline;
+    }
+
+
+    .topo span {
+      float: right;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+
+    .conteudo {
+      padding: 20px;
+    }
+
+
+    .campo {
+      margin-bottom: 15px;
+    }
+
+
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+
+
+    .caixa-amarela {
+      background-color: #ffffcc;
+      border: 1px dashed orange;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+
+    .botao {
+      width: 100%;
+      background-color: green;
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+
+    .rodape {
+      background-color: #1e293b;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+
+  <div class="container">
+    <div class="topo">
+      <h1>MAPJOB</h1>
+      <span>Vagas no Mapa | Minhas Candidaturas | Perfil</span>
+    </div>
+
+
+    <div class="conteudo">
+      <h2 style="color: blue; margin-bottom: 15px;">Preencha as Informações de Busca</h2>
+
+
+      <form>
+        <div class="campo">
+          <label>Nome Completo</label><br>
+          <input type="text" placeholder="Digite o seu nome completo...">
+        </div>
+
+
+        <div class="campo">
+          <label>Cidade / Bairro</label><br>
+          <input type="text" placeholder="Ex: Esperança - PB">
+        </div>
+
+
+        <div class="campo">
+          <label>Habilidades / Cargo Desejado</label><br>
+          <input type="text" placeholder="Ex: Atendimento, Logística...">
+        </div>
+
+
+        <div class="campo">
+          <label>Raio de Busca Desejado (KM)</label><br>
+          <select>
+            <option>Até 2 km</option>
+            <option selected>Até 5 km (Recomendado)</option>
+            <option>Até 10 km</option>
+            <option>Até 15 km</option>
+            <option>Até 20 km</option>
+          </select>
+        </div>
+
+
+        <div class="campo">
+          <label>Compatibilidade Mínima (Match)</label><br>
+          <select>
+            <option>Mínimo 60% (Recomendado)</option>
+            <option>Mínimo 70%</option>
+            <option>Mínimo 80%</option>
+          </select>
+        </div>
+
+
+        <div class="caixa-amarela">
+          <input type="checkbox" id="jovem">
+          <label for="jovem" style="color: brown;">★ Sou Jovem Aprendiz</label>
+        </div>
+
+
+        <button type="button" class="botao" onclick="alert('Buscando vagas no mapa...')">BUSCAR VAGAS NO MAPA</button>
+      </form>
+    </div>
+
+
+    <div class="rodape">
+      © 2026 MapJob - Conectando empregos e talentos locais
+    </div>
+  </div>
+
+
+</body>
+</html>
+
